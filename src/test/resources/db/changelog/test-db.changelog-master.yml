@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: '1'
+      author: Ricardo Cuevas Díaz
+      changes:
+        - sqlFile:
+            path: db/changelog/scripts/test-01-create-tables.sql
+            
+  - changeSet:
+      id: '2'
+      author: Ricardo Cuevas Díaz
+      changes:
+        - sqlFile:
+            path: db/changelog/scripts/test-02-insert-data.sql
+            
