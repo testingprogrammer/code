@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.coding.challenge.prices.application.dto.PriceResponseDTO;
+import com.coding.challenge.prices.infraestructure.adapters.inbound.dto.PriceResponseDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -174,7 +174,7 @@ class PriceControllerIntegrationTest {
 	}
 	
 	@Test
- 	void find_price_when_wrong_format_date_and_productId_35455_and_brand_1_should_return_200_with_price_dto() {
+ 	void find_price_when_wrong_format_date_and_productId_35455_and_brand_1_should_return_400_with_price_dto() {
 		{
 		URI uri = UriComponentsBuilder.fromUriString(url).queryParam(DATE, "20210614T10:00:00")
 				.queryParam(BRAND_ID, 1).queryParam(PRODUCT_ID, 35455).build().toUri();

@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coding.challenge.prices.application.dto.PriceRequestDTO;
-import com.coding.challenge.prices.application.dto.PriceResponseDTO;
 import com.coding.challenge.prices.application.ports.inbound.GetPriceUseCasePort;
+import com.coding.challenge.prices.infraestructure.adapters.inbound.dto.PriceRequestDTO;
+import com.coding.challenge.prices.infraestructure.adapters.inbound.dto.PriceResponseDTO;
+import com.coding.challenge.prices.infraestructure.mapper.PriceMapper;
 
 import jakarta.validation.Valid;
 
@@ -26,7 +27,8 @@ public class PriceController {
 	
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PriceResponseDTO> getPrice(@Valid PriceRequestDTO params) {
-		PriceResponseDTO response = getPriceUseCase.getPrice(params);
+		PriceResponseDTO response = PriceMapper.INSTANCE.domainToDto(
+				getPriceUseCase.getPrice(params.productId(),params.brandId(), params.date()));
 		LOGGER.info("getPrice#> Price found {}", response);
 
 		return ResponseEntity.ok(response);

@@ -2,7 +2,6 @@ package com.coding.challenge.prices.infraestructure.adapters.inbound.exceptions;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class PriceControllerAdvice {
 					ERROR,
 					ex.getLocalizedMessage());
 
-		return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
@@ -38,7 +37,7 @@ public class PriceControllerAdvice {
 				ERROR,
 				e.getLocalizedMessage());
 		
-		return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 
 	
@@ -50,7 +49,7 @@ public class PriceControllerAdvice {
 				ERROR,
 				ex.getLocalizedMessage());
 
-		return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(PriceNotFoundException.class)
@@ -70,7 +69,7 @@ public class PriceControllerAdvice {
 		 List<String> errors = ex.getBindingResult().getFieldErrors()
 				 .stream()
 				 .map(e ->String.format("%s %s", e.getField(),e.getDefaultMessage()))
-				 .collect(Collectors.toList());
+				 .toList();
 		 
 		 ErrorMessage message = new ErrorMessage(
 					HttpStatus.BAD_REQUEST.value(),

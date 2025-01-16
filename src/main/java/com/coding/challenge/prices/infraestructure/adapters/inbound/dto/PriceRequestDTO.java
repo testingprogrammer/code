@@ -1,4 +1,4 @@
-package com.coding.challenge.prices.application.dto;
+package com.coding.challenge.prices.infraestructure.adapters.inbound.dto;
 
 import java.time.LocalDateTime;
 

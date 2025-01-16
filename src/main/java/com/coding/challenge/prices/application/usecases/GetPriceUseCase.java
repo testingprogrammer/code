@@ -1,15 +1,11 @@
 package com.coding.challenge.prices.application.usecases;
 
-import java.util.Comparator;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.coding.challenge.prices.application.dto.PriceRequestDTO;
-import com.coding.challenge.prices.application.dto.PriceResponseDTO;
-import com.coding.challenge.prices.application.mappers.PriceMapperDomain;
 import com.coding.challenge.prices.application.ports.inbound.GetPriceUseCasePort;
 import com.coding.challenge.prices.application.ports.outbound.PriceRepositoryPort;
 import com.coding.challenge.prices.domain.exception.PriceNotFoundException;
@@ -24,19 +20,11 @@ public class GetPriceUseCase implements GetPriceUseCasePort {
 		this.priceRepository = priceRepository;
 	}
 
-	public PriceResponseDTO getPrice(PriceRequestDTO request) {
-		if (Objects.isNull(request)) {
-			LOGGER.error("getPrice#> request cant be null", request);
-
-			throw new IllegalArgumentException("Request cant be null");
-		}
+	public Price getPrice(Long productId, Long brandId, LocalDateTime date){
+		LOGGER.info("getPrice#> Request for price with productId {}, brandId {} and date {}"
+				,productId,brandId,date);
 		
-		LOGGER.info("getPrice#> Request for price with parameters {}", request);
-		
-		return priceRepository.findPricesByProductIdAndBrandIAndDateBetweenStartDateAndEndDate(request.productId(), request.brandId(),request.date())
-				.stream()
-                .max(Comparator.comparing(Price::getPriority))
-				.map(PriceMapperDomain.INSTANCE::domainToDto)
+		return priceRepository.findPriceByProductIdAndBrandIdApplicableOnDate(productId, brandId,date)
 				.orElseThrow(() -> new PriceNotFoundException("Price not found"));
 	}
 }

@@ -1,8 +1,9 @@
 package com.coding.challenge.prices.application.ports.inbound;
 
-import com.coding.challenge.prices.application.dto.PriceRequestDTO;
-import com.coding.challenge.prices.application.dto.PriceResponseDTO;
+import java.time.LocalDateTime;
+
+import com.coding.challenge.prices.domain.model.Price;
 
 public interface GetPriceUseCasePort {
-	PriceResponseDTO getPrice(PriceRequestDTO request);
+	Price getPrice(Long productId, Long brandId, LocalDateTime date);
 }
